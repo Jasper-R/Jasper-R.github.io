@@ -1140,6 +1140,8 @@ body.nav-opened .nav {
 
 /* Every post, on every page, gets this style on its <article> tag */
 .post-card-content {
+    padding-left: 20px;
+    padding-right: 20px;
     width: calc(100% - 430px); /* set the width of the content to 100% minus the width of the image container plus the margin */
     max-width: 670px; /* set a maximum width for the content */
     margin: 4rem auto;
@@ -1160,6 +1162,23 @@ body.nav-opened .nav {
     word-wrap: break-word;
 
 }
+
+@media only screen and (max-width: 767px) {
+    /* apply styles for screen widths below 768px */
+    .post-card {
+      flex-direction: column;
+    }
+    
+    .post-card-image {
+      margin-right: 0;
+      margin-bottom: 30px;
+      max-height: 400px;
+    }
+    
+    .post-card-content {
+      width: 100%;
+    }
+  }
 
 /* Add a little circle in the middle of the border-bottom on our .post
    just for the lolz and stylepoints. (may have borked this)*/
