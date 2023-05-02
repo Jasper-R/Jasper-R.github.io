@@ -726,16 +726,8 @@ body.nav-opened .site-wrapper {
 }
 
 .main-header .inner {
-    width: 40%;
+    width: 550px;
 }
-
-/* @media only screen and (max-width: 1920px) {
-    .main-header .inner {
-        background-color: var(--color-background-transparent);
-        border-radius: 20px;
-        padding: 20px; 
-    }
-  } */
 
 .main-nav {
     position: relative;
@@ -1988,6 +1980,10 @@ body.page-template .post-title {
         height: 80vh;
         padding: 15% 0;
     }
+    
+    .main-header .inner {   
+        width: 380px;
+    }    
 
     .scroll-down,
     .home-template .main-header:after { display: none; }
@@ -2132,7 +2128,14 @@ body.page-template .post-title {
     .main-header {
         margin-bottom: 15px;
         height: 40vh;
-    }
+    }    
+    
+    .main-header .inner {   
+        width: 80%;
+        background-color: var(--color-background-transparent);
+        border-radius: 20px;
+        padding: 20px; 
+    }    
 
     .no-cover.main-header {
         height: 30vh;
