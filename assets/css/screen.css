@@ -120,6 +120,7 @@
     --color-foreground: #B79138;
     --color-shadow: #593E10;
     --color-background: #110700;
+    --color-background-transparent: #110700B4;
 
     --color-28: var(--color-highlight);
     --color-27: var(--color-highlight);
@@ -727,6 +728,14 @@ body.nav-opened .site-wrapper {
 .main-header .inner {
     width: 80%;
 }
+
+@media only screen and (max-width: 1920px) {
+    .main-header .inner {
+        background-color: var(--color-background-transparent); /* set the background color */
+        border-radius: 20px; /* set the border radius to create rounded corners */
+        padding: 20px; /* add some padding to the content to create some space between it and the background */    
+    }
+  }
 
 .main-nav {
     position: relative;
