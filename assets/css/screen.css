@@ -726,8 +726,7 @@ body.nav-opened .site-wrapper {
 }
 
 .main-header .inner {
-    width: 550px;
-
+    width: 80%;
     background-color: var(--color-background-transparent);
     border-radius: 20px;
 }
