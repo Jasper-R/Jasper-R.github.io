@@ -727,6 +727,9 @@ body.nav-opened .site-wrapper {
 
 .main-header .inner {
     width: 550px;
+
+    background-color: var(--color-background-transparent);
+    border-radius: 20px;
 }
 
 .main-nav {
@@ -1980,10 +1983,6 @@ body.page-template .post-title {
         height: 80vh;
         padding: 15% 0;
     }
-    
-    .main-header .inner {   
-        width: 380px;
-    }    
 
     .scroll-down,
     .home-template .main-header:after { display: none; }
@@ -2128,14 +2127,7 @@ body.page-template .post-title {
     .main-header {
         margin-bottom: 15px;
         height: 40vh;
-    }    
-    
-    .main-header .inner {   
-        width: 80%;
-        background-color: var(--color-background-transparent);
-        border-radius: 20px;
-        padding: 20px; 
-    }    
+    }
 
     .no-cover.main-header {
         height: 30vh;
