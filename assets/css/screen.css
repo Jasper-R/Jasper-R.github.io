@@ -1139,6 +1139,8 @@ body.nav-opened .nav {
     height: 100%; /* set height to 100% to match the height of the content */
     overflow: hidden; /* hide any parts of the image beyond the container width */
     margin-right: 30px; /* add a margin to the right of the image */
+    padding-left: 20px;
+    padding-right: 20px;
 }
 
 .post-card-image img {
@@ -1151,7 +1153,8 @@ body.nav-opened .nav {
 .post-card-content {
     padding-left: 20px;
     padding-right: 20px;
-    width: calc(100% - 430px); /* set the width of the content to 100% minus the width of the image container plus the margin */
+    width: calc(100% - 430px - 40px); 
+    /* set the width of the content to 100% minus the width of the image container plus the margin */
     max-width: 670px; /* set a maximum width for the content */
     margin: 4rem auto;
     /* padding-bottom: 4rem;
@@ -1169,6 +1172,7 @@ body.nav-opened .nav {
     padding-bottom: 4rem;
     border-bottom: var(--color-19) 1px solid;
     word-wrap: break-word;
+    overflow: hidden;
 
 }
 
@@ -1185,7 +1189,7 @@ body.nav-opened .nav {
     }
     
     .post-card-content {
-      width: 100%;
+        width: calc(100% - 40px); 
     }
   }
 
