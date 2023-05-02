@@ -7,8 +7,8 @@ paginate: 5
 language: 'en-uk'
 
 # Website info
-name: 'Finding The Way Home'
-description: "A beautiful narrative written with the world's most elegant publishing platform. The story begins here."
+name: 'Sidereal Systems'
+description: "Hey, I'm Jasper. On this website I document the various projects I work on for your viewing pleasure. Turns out front-end development is kind of hard :)"
 
 short_url: 'jekyllt.github.io/jasper/'
 google_analytics: UA-69281367-1

@@ -8,7 +8,7 @@ tags: fables fiction
 subclass: 'post tag-test tag-content'
 logo: 'assets/images/ghost.png'
 author: casper
-previewimage: 'assets/images/gas_giant.gif'
+previewimage: 'assets/images/gas_giant_twotone.gif'
 # categories: casper
 ---
 
