@@ -726,16 +726,16 @@ body.nav-opened .site-wrapper {
 }
 
 .main-header .inner {
-    width: 80%;
+    width: 40%;
 }
 
-@media only screen and (max-width: 1920px) {
+/* @media only screen and (max-width: 1920px) {
     .main-header .inner {
-        background-color: var(--color-background-transparent); /* set the background color */
-        border-radius: 20px; /* set the border radius to create rounded corners */
-        padding: 20px; /* add some padding to the content to create some space between it and the background */    
+        background-color: var(--color-background-transparent);
+        border-radius: 20px;
+        padding: 20px; 
     }
-  }
+  } */
 
 .main-nav {
     position: relative;
@@ -1089,7 +1089,7 @@ body.nav-opened .nav {
 /* The details of your blog. Defined in ghost/settings/ */
 .page-title {
     margin: 10px 0 10px 0;
-    font-size: 5rem;
+    font-size: 4rem;
     letter-spacing: -1px;
     font-weight: 700;
     font-family: "Open Sans", sans-serif;
@@ -1985,7 +1985,7 @@ body.page-template .post-title {
         box-sizing: border-box;
         height: auto;
         min-height: 240px;
-        height: 60vh;
+        height: 80vh;
         padding: 15% 0;
     }
 
