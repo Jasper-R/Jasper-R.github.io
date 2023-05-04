@@ -1,0 +1,87 @@
+---
+layout: post
+cover: 'sets/images/Delirium/banner.png'
+navigation: True
+title: 'Game Design project: Delirium'
+date: 2019-11-09 10:18:00
+tags: Unity C# GLSL
+subclass: 'post tag-test tag-content'
+logo: 'assets/images/ghost.png'
+author: casper
+categories: casper
+previewimage: 'assets/images/Delirium/preview-image-optimised.gif'
+---
+
+<video width="100%" autoplay loop muted>
+    <source src="assets/images/Delirium/puzzle.mp4" type="video/mp4" />
+    Your browser does not support the video tag.
+</video>
+
+<p>
+As a part of my Minor in Computer Science I participated in a game design project, where we made a puzzle game about a
+funny looking guy that has to escape a nightmare. In this nightmare, the player finds himself in a forest maze. The
+player must navigate this maze to find three puzzle tiles, at which they can find progression items needed to beat the
+game. It's in many ways a university projects, especially in lack of polish and art direction, but the concepts and
+programming challenges were very fun to explore.
+</p>
+
+<figure>
+    <video width="100%" autoplay loop muted>
+        <source src="assets/images/Delirium/intro.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+    </video>
+    <figcaption style="font-size:0.8em">The funny little guy in question </figcaption>
+</figure>
+
+<p>
+One of my main responsibilities was to work with the world generation. The game world is made up of various tiles.
+Behind the scenes, these tiles were layed out in a coherent grid map forming a small 8 by 8 tile maze. What makes the
+game difficult despite the small map size is that the maze shifts as the player moves through it. Adjacent tiles in the
+map are loaded as the player moves around, but sometimes a different tile of the maze is loaded instead. To help the
+player navigate the changing environment, a compass with 3 needles is found at the start of the game. Each needle slowly
+rotating towards the direction pointing at a location in the forest with a puzzle scene.
+</p>
+
+<video width="100%" autoplay loop muted>
+    <source src="assets/images/Delirium/compass.mp4" type="video/mp4" />
+    Your browser does not support the video tag.
+</video>
+
+<p>
+Additionally, there are signs that with some cryptic hints can point the player to the exit once the puzzles are done.
+</p>
+
+<video width="100%" autoplay loop muted>
+    <source src="assets/images/Delirium/clues.mp4" type="video/mp4" />
+    Your browser does not support the video tag.
+</video>
+
+<p>
+The puzzles themselves involve moving some blocks with special properties around and placing them on buttons to open
+gates. To fit the dream-like theme of the game, the properties are equally confusing:
+</p>
+
+<video width="100%" autoplay loop muted>
+    <source src="assets/images/Delirium/tile.mp4" type="video/mp4" />
+    Your browser does not support the video tag.
+</video>
+
+<p>
+I was also responsible for the design of the (AI) behaviour and visuals of the main enemy. For the visuals, some initial
+ideas were to make the enemy look like a giant flying obelisk with an eye. However, after some shader experiments we
+came up with the following, which is a little trippy:
+</p>
+
+<video width="100%" autoplay loop muted>
+    <source src="assets/images/Delirium/enemy.mp4" type="video/mp4" />
+    Your browser does not support the video tag.
+</video>
+
+<p>
+If the enemy is in the field of vision of the player, it slowly pulls in the camera. To make matters worse, looking at
+the eye decreases a sanity value given to the player. The lower their sanity, the more likely it is that a random tile
+will spawn, making the game extra confusing.
+</p>
+
+Overall, this has been one of my favourite projects to work on, especially given the team of people I made it with.
+</p>

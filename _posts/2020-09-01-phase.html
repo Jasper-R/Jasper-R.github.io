@@ -1,6 +1,6 @@
 ---
 layout: post
-cover: 'assets/images/cover3.jpg'
+cover: 'assets/images/Phase/banner.png'
 navigation: True
 title: 'Phase: 2D movement shooter prototype'
 date: 2020-09-01 10:18:00
@@ -12,7 +12,12 @@ categories: casper
 previewimage: 'assets/images/Phase/preview-image.gif'
 ---
 
-Phase was one of my first attempts at making a small game prototype in Unity.
+Phase was one of my first attempts at making a small prototype for a game mechanic in Unity.
+
+<video width="100%" autoplay loop muted>
+  <source src="assets/images/phase/running.mp4" type="video/mp4" />
+  Your browser does not support the video tag.
+</video>
 
 <p>
 The art style was mostly inspired by Hyper Light Drifter by Heart Machine. The project was good practice for learning to
@@ -20,23 +25,22 @@ make sprites and animations using Aseprite. I made the following character for i
 which I'm still very happy with:
 </p>
 
-<!-- <div class="row">
-    <div class="column">
-      <img src="assets/images/Phase/preview-image.gif" alt="Snow" style="width:100%">
+<div class="row" style="display: flex;">
+    <div class="column" style="flex: 50%; padding: 5px;">
+      <img src="assets/images/Phase/character_draw_pistol_tactical_v2.gif" alt="draw_tactical" style="width:100%">
     </div>
-    <div class="column">
-      <img src="assets/images/Phase/preview-image.gif" alt="Forest" style="width:100%">
+    <div class="column" style="flex: 50%; padding: 5px;">
+      <img src="assets/images/Phase/character_draw_pistol_v2.gif" alt="run" style="width:100%;">
     </div>
-    <div class="column">
-      <img src="assets/images/Phase/preview-image.gif" alt="Mountains" style="width:100%">
-    </div>
-  </div> -->
+  </div>
 
 <p>
 At the core of the game would be a movement controller that would allow the player to keep their momentum. For this I
 wrote a "stepwise" movement controller, which would increase the speed of the player step by step. Internally this
 worked using an FSM with a bunch of curves to control the velocity profile at each step:
 </p>
+
+<img src="assets/images/Phase/steps.png" />
 
 <p>
 Had I continued with this I think I would have made the steps "snappier", really giving the player a jolt with each step
@@ -50,7 +54,20 @@ import "blob" type tile sheets and automatically generate the autotiles with nam
 brushes that would used the generated tilesets to allow automatic drawing of rooms with walls:
 </p>
 
+<video width="100%" autoplay loop muted>
+  <source src="assets/images/phase/brush.mp4" type="video/mp4" />
+  Your browser does not support the video tag.
+</video>
+
 <p>
 On top of that I added an animation system where some tiles would play an animation every so often. This was done by
 letting an animation manager component on the tilemap replace static tiles with their animated variants.
 </p>
+
+<div style="position: relative; height: 500px;">
+  <video autoplay loop muted style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); height: 100%; width: 50%; object-fit: cover;"">
+    <source src="assets/images/phase/animation.mp4" type="video/mp4"/>
+  Your browser does not support the video tag.
+  </video>
+</div>
+

@@ -36,14 +36,21 @@ Lastly to add some final juice, I added camera movement when walking or strafing
 really make things feel a bit more dynamic.
 </p>
 
-<p>
+<!-- <p>
     <div style="position:relative;padding-top:56.25%;">
       <iframe src="assets/images/chain-game/movement.mp4" frameborder="0" allowfullscreen
         style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
     </div>
 </p>
 
-<p style = "padding-top: 20px;" >
+
+<p style = "padding-top: 20px;" > -->
+<video width="100%" autoplay loop muted>
+  <source src="assets/images/chain-game/movement.mp4" type="video/mp4" />
+  Your browser does not support the video tag.
+</video>
+
+<p>
 There's a lot of details to take into account when polishing a movement system. Things like step detection, jump
 buffering, coyote jumps, or moving the camera down slightly when under an overhang to prevent clipping go a long way in
 making control feel nicer to use.
@@ -69,40 +76,56 @@ both act as an offensive weapon as the pin and chain shot out from the player, a
 can swing from. To make the chain more interesting, I made it bounce off some surfaces and attach to colliders tagged as anchors.  
 </p>
 
-<p>
+<!-- <p>
     <div style="position:relative;padding-top:56.25%; " >
       <iframe src="assets/images/chain-game/grapple.mp4" frameborder="0" allowfullscreen
         style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
     </div>
-</p>
+</p> -->
+<video width="100%" autoplay loop muted>
+  <source src="assets/images/chain-game/grapple.mp4" type="video/mp4" />
+  Your browser does not support the video tag.
+</video>
 
-
-<h3 id="graphics" style = "padding-top: 20px;">Graphics</h3>
+<!-- <h3 id="graphics" style = "padding-top: 20px;">Graphics</h3> -->
+<h3 id="graphics">Graphics</h3>
 <!-- graphics -->
 Next, I decided to add some retro graphics. I modeled and textured a wall, floor and skybox in blender, as well as models for the 
 chain links and pin. All together that resulted in the following:
 
-<p>
+<!-- <p>
     <div style="position:relative;padding-top:56.25%;">
       <iframe src="assets/images/chain-game/chain_graphics.mp4" frameborder="0" allowfullscreen
         style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
     </div>
 </p>
 
-<p style = "padding-top: 20px;">
+<p style = "padding-top: 20px;"> -->
+<video width="100%" autoplay loop muted>
+  <source src="assets/images/chain-game/chain_graphics.mp4" type="video/mp4" />
+  Your browser does not support the video tag.
+</video>
+
+<p>
 To make polish the graphics a bit, I added some particles for when the chain hits something, some lighting and post processing 
 in the form of a dithering screen shader. The way the shader works is quite straightforward. It samples one of the dither matrices 
 based on the value of a pixel, and then converts the grayscale value to a colour via a colour mapping.
 </p>
 
-<p>
+<!-- <p>
     <div style="position:relative;padding-top:56.25%;">
       <iframe src="assets/images/chain-game/shader_graphics.mp4" frameborder="0" allowfullscreen
         style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
     </div>
-</p>
+</p> -->
 
-<h3 id="enemies" style = "padding-top: 20px;">Enemy Behaviour</h3>
+<!-- <h3 id="enemies" style = "padding-top: 20px;">Enemy Behaviour</h3> -->
+<video width="100%" autoplay loop muted>
+  <source src="assets/images/chain-game/shader_graphics.mp4" type="video/mp4" />
+  Your browser does not support the video tag.
+</video>
+
+<h3 id="enemies">Enemy Behaviour</h3>
 
 <!-- Enemy behaviour -->
 <p>
@@ -118,14 +141,20 @@ Since i had some experience in writing compute shaders from the gas giant shader
 implementation of Conway's Game of Life was an easy way to test how the API calls work. :)
 </p>
 
-<p>
+<!-- <p>
     <div style="position:relative;padding-top:56.25%;">
       <iframe src="assets/images/chain-game/gameoflife.mp4" frameborder="0" allowfullscreen
         style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
     </div>
 </p>
 
-<p style = "padding-top: 20px;">
+<p style = "padding-top: 20px;"> -->
+  <video width="100%" autoplay loop muted>
+    <source src="assets/images/chain-game/gameoflife.mp4" type="video/mp4" />
+    Your browser does not support the video tag.
+  </video>
+  
+  <p>
 My first idea was to use a 2D image where each pixel represents the density of characters. the "density" would move as
 pixels sample their neighbourse to move.
 </p>
@@ -134,27 +163,39 @@ However, this had some issues as the enemies would tend to stack after being "fo
 hit the density limit, mostly because the movement was constrained to 2 directions only. At this point, I remembered the
 Boids algorithm exists. After a weekend of programming a lot of bugfixing this was the result:
 
-<p>
+<!-- <p>
     <div style="position:relative;padding-top:56.25%;">
       <iframe src="assets/images/chain-game/boids.mp4" frameborder="0" allowfullscreen
         style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
     </div>
 </p>
 
-<p style = "padding-top: 20px;">
+<p style = "padding-top: 20px;"> -->
+  <video width="100%" autoplay loop muted>
+    <source src="assets/images/chain-game/boids.mp4" type="video/mp4" />
+    Your browser does not support the video tag.
+  </video>
+  
+  <p>
 So far, this is just the boids algorithm as it's been done many times. The next task, however, would be getting the agents
 to move across on the floor rather than in the air, while allowing them to walk across each other. This turns out to be quite 
 difficult, as it requires the agents to somehow support each other without pushing them up so much they start floating. After a lot of experiments, 
 this is what I have now:
 </p>
 
-<p>
+<!-- <p>
     <div style="position:relative;padding-top:56.25%;">
       <iframe src="assets/images/chain-game/creeps.mp4" frameborder="0" allowfullscreen
         style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
     </div>
 </p>
 
-<p style = "padding-top: 20px;">
+<p style = "padding-top: 20px;"> -->
+  <video width="100%" autoplay loop muted>
+    <source src="assets/images/chain-game/creeps.mp4" type="video/mp4" />
+    Your browser does not support the video tag.
+  </video>
+  
+  <p>
 More on this is soon to come, I will keep things posted here! :)
 </p>
