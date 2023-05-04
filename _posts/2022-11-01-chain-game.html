@@ -1,0 +1,160 @@
+---
+layout: post
+cover: 'assets/images/chain-game/banner.png'
+navigation: True
+title: Chain Game
+date: 2022-11-01 10:18:00
+tags: Godot GDScript GLSL C# Blender
+subclass: 'post tag-test tag-content'
+logo: 'assets/images/ghost.png'
+author: casper
+categories: casper
+previewimage: 'assets/images/chain-game/preview_icon.png'
+---
+
+<p>
+Near the end of last year I decided to have a look at the Godot engine after hearing a lot of good about it. I have been
+working on this project to get a good understanding of various aspects of the engine.
+</p>
+
+
+
+<h3 id="movement-system">Movement System</h3>
+<!-- movement system -->
+<p>
+I started the project by designing a modular movement system. The first step in any good movement controller is managing
+momentum and of course *not* normalising diagonal movement. :) On top of that basis I added a 
+</p>
+
+<p>
+Two other mechanics I really wanted to add was wallrunning and walljumps. I'm a big fan of Titanfall|2, so a movement
+system wouldn't be complete without it.
+</p>
+
+<p>
+Lastly to add some final juice, I added camera movement when walking or strafing, and I change the FOV with speed. This
+really make things feel a bit more dynamic.
+</p>
+
+<p>
+    <div style="position:relative;padding-top:56.25%;">
+      <iframe src="assets/images/chain-game/movement.mp4" frameborder="0" allowfullscreen
+        style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
+    </div>
+</p>
+
+<p style = "padding-top: 20px;" >
+There's a lot of details to take into account when polishing a movement system. Things like step detection, jump
+buffering, coyote jumps, or moving the camera down slightly when under an overhang to prevent clipping go a long way in
+making control feel nicer to use.
+</p>
+
+<!-- modularity -->
+To keep the system modular, I refactored the code to move the parts for each movement abilities in its own script:
+
+<p><img src="assets/images/chain-game/modules.png" alt="module scene tree" /></p>
+
+<p>
+Input is parsed by an input script (which also has the input buffers), and is then routed into the separate ability
+scripts. These scripts then communicate with each other to determine what moves are possible, and control the body and
+camera.
+</p>
+
+<h3 id="movement-system">Chain grapple</h3>
+
+<p>
+Having the abilities set up like this is convenient, because it makes it easy to add other systems that interface with
+the movement mechanics. The main mechanic I came up with is to give the player two chains, one in each hand. These chains
+both act as an offensive weapon as the pin and chain shot out from the player, and as a conventional grappling hook the player
+can swing from. To make the chain more interesting, I made it bounce off some surfaces and attach to colliders tagged as anchors.  
+</p>
+
+<p>
+    <div style="position:relative;padding-top:56.25%; " >
+      <iframe src="assets/images/chain-game/grapple.mp4" frameborder="0" allowfullscreen
+        style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
+    </div>
+</p>
+
+
+<h3 id="graphics" style = "padding-top: 20px;">Graphics</h3>
+<!-- graphics -->
+Next, I decided to add some retro graphics. I modeled and textured a wall, floor and skybox in blender, as well as models for the 
+chain links and pin. All together that resulted in the following:
+
+<p>
+    <div style="position:relative;padding-top:56.25%;">
+      <iframe src="assets/images/chain-game/chain_graphics.mp4" frameborder="0" allowfullscreen
+        style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
+    </div>
+</p>
+
+<p style = "padding-top: 20px;">
+To make polish the graphics a bit, I added some particles for when the chain hits something, some lighting and post processing 
+in the form of a dithering screen shader. The way the shader works is quite straightforward. It samples one of the dither matrices 
+based on the value of a pixel, and then converts the grayscale value to a colour via a colour mapping.
+</p>
+
+<p>
+    <div style="position:relative;padding-top:56.25%;">
+      <iframe src="assets/images/chain-game/shader_graphics.mp4" frameborder="0" allowfullscreen
+        style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
+    </div>
+</p>
+
+<h3 id="enemies" style = "padding-top: 20px;">Enemy Behaviour</h3>
+
+<!-- Enemy behaviour -->
+<p>
+Lately I've been working on designing the enemy behaviour. My initial idea was to create a swarm of enemies.
+As I have yet to decide on how things will be rendered, I have first had a look at how to make the enemies
+behave. To start off, I did some experiments with Godot's navigation API, which was fairly straightforward to
+work with. However, because insects are best in large numbers I decided to look into alternative methods. The goal would
+be to have the swarm of insects move stacked on top of each other moving almost like a liquid.
+</p>
+
+<p>
+Since i had some experience in writing compute shaders from the gas giant shader, I wanted to give this a shot in Godot. Making a small
+implementation of Conway's Game of Life was an easy way to test how the API calls work. :)
+</p>
+
+<p>
+    <div style="position:relative;padding-top:56.25%;">
+      <iframe src="assets/images/chain-game/gameoflife.mp4" frameborder="0" allowfullscreen
+        style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
+    </div>
+</p>
+
+<p style = "padding-top: 20px;">
+My first idea was to use a 2D image where each pixel represents the density of characters. the "density" would move as
+pixels sample their neighbourse to move.
+</p>
+
+However, this had some issues as the enemies would tend to stack after being "folded" on top of each other and quickly
+hit the density limit, mostly because the movement was constrained to 2 directions only. At this point, I remembered the
+Boids algorithm exists. After a weekend of programming a lot of bugfixing this was the result:
+
+<p>
+    <div style="position:relative;padding-top:56.25%;">
+      <iframe src="assets/images/chain-game/boids.mp4" frameborder="0" allowfullscreen
+        style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
+    </div>
+</p>
+
+<p style = "padding-top: 20px;">
+So far, this is just the boids algorithm as it's been done many times. The next task, however, would be getting the agents
+to move across on the floor rather than in the air, while allowing them to walk across each other. This turns out to be quite 
+difficult, as it requires the agents to somehow support each other without pushing them up so much they start floating. After a lot of experiments, 
+this is what I have now:
+</p>
+
+<p>
+    <div style="position:relative;padding-top:56.25%;">
+      <iframe src="assets/images/chain-game/creeps.mp4" frameborder="0" allowfullscreen
+        style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
+    </div>
+</p>
+
+<p style = "padding-top: 20px;">
+More on this is soon to come, I will keep things posted here! :)
+</p>

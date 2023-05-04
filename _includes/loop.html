@@ -39,7 +39,7 @@
 
                 <!-- [[tags prefix=" on "]] -->
                 <!-- <time class="post-date" datetime="{{ post.date | date:'%Y-%m-%d' }}">{{ post.date | date_to_string }}</time> -->
-                <time class="post-date" datetime="{{ post.date | date:'%Y-%m-%d' }}">{{ post.date | date_to_string }}</time>
+                <time class="post-date" datetime="{{ post.date | date:'%Y-%m-%d' }}">{{ post.date  | date: '%B, %Y'  }}</time>
 
                 {% if post.tags.size > 0 %}
                     <!-- on -->

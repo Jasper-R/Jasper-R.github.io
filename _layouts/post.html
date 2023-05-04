@@ -34,7 +34,7 @@ class: 'post-template'
                     <a href='{{ site.baseurl }}author/{{ page.author }}'>{{ author[1].name }}</a>
                 {% endif %}
             {% endfor %} -->
-            <time class="post-date" datetime="{{ page.date | date:'%Y-%m-%d' }}">{{ page.date | date_to_string }}</time>
+            <time class="post-date" datetime="{{ page.date | date:'%Y-%m-%d' }}">{{ page.date  | date: '%B, %Y'  }}</time>
                 <!-- [[tags prefix=" on "]] -->
                 {% if page.tags.size > 0 %}
                 on

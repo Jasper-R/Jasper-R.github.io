@@ -1,0 +1,65 @@
+---
+layout: post
+cover: 'assets/images/barotrauma-los/banner.png'
+navigation: True
+title: A 2D Line of Sight shader using raycasting
+date: 2022-03-01
+tags: GLSL XML C# RenderDoc
+subclass: 'post tag-test tag-content'
+categories: casper
+previewimage: 'assets/images/barotrauma-los/los_preview_5tone.gif'
+---
+
+<p>
+This was a small project where I created a LoS shader with penumbras on shadows and a no shadows some depth into
+occluders. You can play around with a <a href="https://www.shadertoy.com/view/NdlfD8">shadertoy of the setup here.</a> 
+</p>
+
+<p>
+I made this after playing a lot of barotrauma by FakeFish studios, a 2D game about submarining in space. :) To block
+vision between rooms, it uses a Line of Sight shader that draws shadows from occluders.
+</p>
+
+<p>
+This LoS shading was done by iterating over all colliders, and using a spritebatch to draw a shadow and penumbra texture
+behind the object. This way of drawing shadows with penumbras made the LoS effect look natural, but also allow looking
+into a collider some distance, making the sprite of walls themselves visible while hiding geometry behind it. However,
+because it used rectangle colliders for the shadow rather than the actual sprite of the shape, it would often not be
+aligned properly and leave gaps in walls that you could see through. It would also behave oddly at times if colliders
+overlapped (note that this is a particularly bad example and lighting is turned off, it looks better in game):
+</p>
+
+<p><img src="assets/images/barotrauma-los/los_example.png" style="width:100%" alt="los example" /></p>
+
+<p>
+I wanted to see if it was possible to do this in a shader to make use of the GPU and using the actual sprite
+shape.
+</p>
+
+<p>
+The following design was what I made in the end:
+</p>
+
+<p><img src="assets/images/barotrauma-los/flowchart.png" style="width:100%" alt="los example" /></p>
+
+<p>
+Geometry is first rendered to a separate occlusion map. This was already done as part of the original rendering
+pipeline. A 1D texture is then filled using a shader that steps from a center viewpoint out in all directions while
+sampling the occlusion map until it lands on an occluder. The resulting texture then has the distance to occluders in
+all directions. To calculate the penumbra, a Penumbra map is pre-calculated by determining how deep in the shadow a
+point at a certain distance from an occluder would be.
+</p>
+
+This texture is then used to determine how much the shadow from adjacent rays (sampled in the horizontal direction)
+should add to the shadow from the current ray. By converting the texture back to carthesian coordinates we can draw the
+final textures on screen.
+</p>
+
+<p>
+The resulting shadows looked quite a bit nicer, although it had some noticable jitter over time depending on the limited
+amount number of rays or ray steps. When profiling using RenderDoc it was found the shader took more time to render, but
+still only a fraction of the total render time.
+</p>
+
+<p><img src="assets/images/barotrauma-los/los_fix_example.png" style="width:100%" alt="los example" /></p>
+

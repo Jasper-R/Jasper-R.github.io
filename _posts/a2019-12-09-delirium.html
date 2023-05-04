@@ -1,0 +1,29 @@
+---
+layout: post
+cover: 'assets/images/cover3.jpg'
+navigation: True
+title: 'Game Design project: Delirium'
+date: 2019-11-09 10:18:00
+tags: test content
+subclass: 'post tag-test tag-content'
+logo: 'assets/images/ghost.png'
+author: casper
+categories: casper
+previewimage: 'assets/images/Delirium/preview-image-optimised.gif'
+---
+
+As a part of my Minor in Computer Science I participated in a game design project, where we made a puzzle game about a funny looking guy that has to escape a nightmare. In this nightmare, the player finds himself in a forest maze. The player must navigate this maze to find three puzzle tiles, at which they can find progression items needed to beat the game.
+
+One of my main responsibilities was to work with the world generation. The game world is made up of various tiles. Behind the scenes, these tiles were layed out in a coherent grid map forming a small 8 by 8 tile maze. What makes the game difficult despite the small map size is that the maze shifts as the player moves through it. Adjacent tiles in the map are loaded as the player moves around, but sometimes a different tile of the maze is loaded instead. To help the player navigate the changing environment, a compass with 3 needles is found at the start of the game. Each needle slowly rotating towards the direction pointing at a location in the forest with a puzzle scene. 
+
+
+Additionally, there are signs that with some cryptic hints can point the player to the exit once the puzzles are done.
+
+
+The puzzles themselves involve moving some blocks with special properties around and placing them on buttons to open gates. To fit the dream-like theme of the game, the properties are equally confusing:
+
+I was also responsible for the design of the (AI) behaviour and visuals of the main enemy. For the visuals, some initial ideas were to make the enemy look like a giant flying obelisk with an eye. However, after some shader experiments we came up with the following, which is quite trippy:
+
+If the enemy is in the field of vision of the player, it slowly pulls in the camera. To make matters worse, looking at the eye decreases a sanity value given to the player. The lower their sanity, the more likely it is that a random tile will spawn, making the game extra confusing. 
+
+Overall, this has been one of my favourite projects to work on, especially given the team of people I made it with. 

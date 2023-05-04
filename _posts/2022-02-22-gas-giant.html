@@ -1,0 +1,128 @@
+---
+layout: post
+cover: 'assets/images/gas-giant/banner.png'
+navigation: True
+title: Gas giant particle sim on a sphere
+date: 2022-02-01 10:18:00
+tags: Unigine C# UUSL 
+subclass: 'post tag-fiction'
+logo: 'assets/images/ghost.png'
+author: edgar
+categories: edgar
+previewimage: 'assets/images/gas-giant/gas_giant_5tone.gif'
+---
+
+<p>
+    The project was inspired by <a href="https://github.com/smcameron/gaseous-giganticus">"Gaseous Giganticus"</a>, a
+    program made by Stephen M. Cameron. This program creates fantastic looking textures for gas planets, with detailed
+    vortices and swirls:
+</p>
+
+<p>
+The project was inspired by <a href="https://github.com/smcameron/gaseous-giganticus">"Gaseous Giganticus"</a>, a
+program made by Stephen M. Cameron. This program creates fantastic looking textures for gas planets, with detailed
+vortices and swirls:
+</p>
+
+<figure>
+    <img src="assets/images/gas-giant/sample-gg-output-1.jpg" style="width:100%" />
+    <figcaption style="font-size:0.5em">Image taken from the Gaseous Giganticus github repository </figcaption>
+</figure>
+<p>
+It generates these textures by moving millions of particles across a sphere using flow maps generated from curl noise
+to simulate fluid like behaviour.
+As is the software is very useful for creating assets, but in games the result can be a little static. 
+Compare this to the planet visuals of Alien: Isolation, another one of my favourite games:
+</p>
+
+<figure>
+<video width="100%" autoplay loop muted>
+    <source src="assets/images/gas-giant/alien.mp4" type="video/mp4" />
+    Your browser does not support the video tag.
+</video>
+<figcaption style="font-size:0.5em">In game recording from the game Alien: Isolation </figcaption>
+</figure>
+
+<p>
+This planet looks very dynamic, you can look at it for a long time and still not see any repeats. However, the details
+differ a lot from the nice textures generated using Gaseous Giganticus.From the limited information
+I could find on it online, it has been made using some sort of baked fluid sim and some noise overlays. 
+</p>
+
+<p>
+I was curious if it was possible to create something that hit a sort of middle ground between the two, with details similar to gaseous
+giganticus, but running in real time and changing over time. I believed this was possible as the original software moved
+the particles in a large for-loop on the CPU. By using compute shaders to move the particles in parallel on the GPU, it
+could be sped up a good bit.
+</p>
+
+<p>
+As a start, I wrote code to store the particle positions and lifetime in a buffer texture. This in itself comes with a
+slight challenge, as the particles move on a sphere. This means you have to choose a certain mapping to convert surface
+coordinates to a position on the texture. I chose a sinusoidal mapping. The texture for the planet's surface then looks
+something like this:
+</p>
+
+<img src="assets/images/gas-giant/mapping.png" style="width:100%" />
+
+<p>
+By using a sinusoidal mapping you have a roughly equal density across the surface. The main advantage, though, is that
+the math to convert between coordinates becomes really simple if you store the particle positions in polar coordinates:
+</p>
+
+{% highlight glsl %}
+y = tex_height*phi/pi
+x = tex_width*(theta/(2*pi)-.5)*sin(phi)
+{% endhighlight %}
+
+<p>
+In the compute shader for movement I can then just use the polar coordinates, and when writing and reading from the
+surface texture the mapping can be used. By then generating curl noise in polar coordinates as well, we can easily
+sample this using the x and y coordinates of the particle directly. To get the moving particles to look like a a planet, 
+I initialise the particles from a gradient based on their latitude. Then I blend the particles colour with the existing colour with
+some opacity. Lastly, the texture is blurred and slowly fades back to a center colour, resulting in the following:
+</p>
+
+<video width="100%" autoplay loop muted>
+    <source src="assets/images/gas-giant/particles.mp4" type="video/mp4" />
+    Your browser does not support the video tag.
+</video>
+
+<p>
+All in all, there were some interesting optimisations to be made for both visual. Because the particles respawn, their
+opacity fades in and out over their lifetime. To not have them all die at the same time, I respawned them in batches,
+resetting only a part of the buffer. Here you see the particle buffer blocks being respawned one by one:
+</p>
+
+<video width="100%" autoplay loop muted>
+    <source src="assets/images/gas-giant/Buffer.mp4" type="video/mp4" />
+    Your browser does not support the video tag.
+</video>
+
+<p style = "padding-top: 20px;">
+To generate the flow map, a 3D curl noise has to be calculated and evaluated at all points on the sphere. Additionally,
+to make the noise dynamic, I also move the noise over time. This means the curl map has to be updated regularly. This
+can be a rather costly. To get around this, I generate the octaves of noise one by one using a compute shader that
+calculates a single layer and adds it to the BA channels. THen I use a second shader to move it to the RG layers where
+it is sampled once the generation is done. On this texture you can see the noise slowly being built up:
+</p>
+
+<video width="100%" autoplay loop muted>
+    <source src="assets/images/gas-giant/curlmap.mp4" type="video/mp4" />
+    Your browser does not support the video tag.
+</video>
+
+<p>
+Using a fragment shader, I lastly blurred the edge of the resulting sphere to make it look a bit softer as a final
+touch:
+</p>
+
+<video width="100%" autoplay loop muted>
+    <source src="assets/images/gas-giant/result.mp4" type="video/mp4" />
+    Your browser does not support the video tag.
+</video>
+
+<p>
+The resulting shader runs in real-time, hitting 80 fps even with 4 million particles (on my modest rig). For performance, it
+would even still be possible to save the texture and flow map at an instance and use that in game.
+</p>

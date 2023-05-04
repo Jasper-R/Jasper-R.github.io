@@ -1,0 +1,98 @@
+---
+layout: post
+cover: 'assets/images/noita-eye-shooter/banner.png'
+navigation: True
+title: Noita eye Message bubble shooter
+date: 2023-01-01 10:18:00
+tags: Godot, C#
+subclass: 'post tag-test tag-content'
+logo: 'assets/images/ghost.png'
+author: casper
+categories: casper
+previewimage: 'assets/images/noita-eye-shooter/preview-image.gif'
+---
+
+<!-- Explanation of the background -->
+<p>
+This prototype may require a bit of backstory, as it is based on the excellent game Noita developed by Nolla games.
+Noita is known for its many secrets found throughout the game. The eye messages are one of the two major secrets. It
+consists of a series of messages spelled out using eye symbols, hidden in hard to reach places of the game. As of yet,
+their entire meaning is unknown (though certain patterns have been found!), even though some very well practiced
+cryptographers have tried all sorts of analyses over the past years. 
+</p>
+
+<figure>
+    <img src="assets/images/noita-eye-shooter/eyes.png" style="width:100%"/>
+    <figcaption style="font-size:0.5em">Eyes as they appear in game, image adapted from the Noita wiki</figcaption>
+</figure>
+
+<p>
+In january, there was a lot of activity surrounding
+the eyes, as someone had come forward claiming they had solved the messages. Said person had decided that rather than to
+reveal the solution, they wanted to make a sort of ARG out of it where cryptic clues would lead to the solution. This caused 
+a lot of commotion as people tried to figure out the clues and became increasingly sceptical there even was a solution. 
+Ultimately they never showed the solution or proof they had solved it at all, but it at least sparked some new theories.
+</p>
+
+
+<!-- Overview of result -->
+<p>
+I made this prototype as a sort of joke during this time about making our own eye messages to solve. It is a variation
+of the many well known "bubble shooter" games that uses the assets of Noita as a basis. Though I never finished the
+gameplay loop, the graphics were similar enough to the original game to make people assume the footage was of the
+original game.
+</p>
+
+<video width="100%" autoplay loop muted>
+    <source src="assets/images/noita-eye-shooter/eye_shooter.mp4" type="video/mp4" />
+    Your browser does not support the video tag.
+</video>
+
+<!-- <body style="margin:0px;padding:0px;overflow:hidden">
+    <iframe src="assets/images/noita-eye-shooter/eye_shooter.mp4" frameborder="0" style="overflow:hidden;height:100%;width:100%" height="100%" width="100%" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+</body> -->
+
+<!-- Bubble deletion -->
+<p>
+Shooting your wand will place an eye where the bolt hits. If more than 3 eyes are connected, all these eyes and any eyes
+that would be disconnected turn into gold. The logic behind how this is done is pretty interesting. Depth first search is
+first used to detect and queue (in order to animate gold spawning) deletion. Then DFS is done from all eyes in the top
+row to find which eyes are connected. Eyes not in this set are removed.
+</p>
+
+<!-- Shaped emitters -->
+<p>
+Recreating the graphics from Noita came with a few peculiarities. Importing the sprites and the background parallax were
+fairly straightforward. However, or many of it's particle effects, Noita uses particle emitters that use a special
+emissionsprite to control how the particles are spawned. One colour channel of this sprite holds the density of the
+particles, and a second channel holds the time at which they should spawn. Godot does have emmision shapes, but these do
+not have the time component. Therefore I had to get creative and modify particle shader code to do this. What made
+things more difficult is that godot bakes emmission shapes into a look up texture where each pixel stores a position in
+which to spawn a particle. These are normally automatically generated, so I had to write a Tool script to generate these
+textures from scratch to include the time based spawning. It converts an emitter into a lookup table like so:
+</p>
+
+<p>
+The tool script samples one of the emissionsprite at a random position, and adds it with a certain chance based on the
+density value in the emmision sprite. After sampling a certain amount of pixels, the emmisionsprite is sampled again,
+but now at the coordinates that were previously sampled to get the time at which the particle is to be spawned. This
+allows sorting the positions into a texture based on the time at which they should spawn. In the particle shader, the
+pixels can then be spawned at positions in the order in which they appear in the lookup texture. The result is as
+follows:
+</p>
+
+<video width="100%" autoplay loop muted>
+    <source src="assets/images/noita-eye-shooter/emitter.mp4" type="video/mp4" />
+    Your browser does not support the video tag.
+</video>
+
+<!-- Gold Graphics -->
+Another challenge to replicate was the gold chunks. The original game uses a texture with normals in the R and G
+channels to make the surfaces look metallic. There is also a "bar" of light that quickly moves across the gold to give
+an additional "blink". Together with some particle effects, it looks something like this:
+</p>
+
+<video width="100%" autoplay loop muted>
+    <source src="assets/images/noita-eye-shooter/gold.mp4" type="video/mp4" />
+    Your browser does not support the video tag.
+</video>

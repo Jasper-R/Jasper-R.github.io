@@ -238,6 +238,15 @@ td, th{ padding: 0; }
    1. Icons - Sets up the icon font and respective classes
    ========================================================================== */
 
+   .row {
+    display: flex;
+  }
+  
+  .column {
+    flex: 33.33%;
+    padding: 5px;
+  }
+
 /* Import the font file with the icons in it */
 @font-face {
     font-family: "casper-icons";
@@ -1087,7 +1096,7 @@ body.nav-opened .nav {
     letter-spacing: -1px;
     font-weight: 700;
     font-family: "Open Sans", sans-serif;
-    color: var(--color-foreground);
+    color: var(--color-highlight);
 }
 
 .page-description {
@@ -1097,7 +1106,7 @@ body.nav-opened .nav {
     font-weight: 400;
     font-family: "Merriweather", serif;
     letter-spacing: 0.01rem;
-    color: var(--color-foreground);
+    color: var(--color-highlight);
 }
 
 .no-cover.main-header {
@@ -1135,6 +1144,7 @@ body.nav-opened .nav {
     margin-right: 30px; /* add a margin to the right of the image */
     padding-left: 20px;
     padding-right: 20px;
+    image-rendering: pixelated;
 }
 
 .post-card-image img {
